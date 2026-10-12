@@ -7,8 +7,9 @@ public class PlayerMove : MonoBehaviour
     public float climbSpeed = 3f;
     public LayerMask ladderLayer;
     public float ladderCheckRadius = 0.5f;
-    public Collider2D ladderCollider;
 
+    [SerializeField] private GameObject hatch;
+    private Collider2D hatchCollider;
     private float verticalInput;
     public bool isClimbing;
     private Rigidbody2D rb;
@@ -18,6 +19,7 @@ public class PlayerMove : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         defaultGravityScale = rb.gravityScale;
+        hatchCollider = hatch.GetComponent<Collider2D>();
     }
     void Update()
     {
@@ -51,7 +53,12 @@ public class PlayerMove : MonoBehaviour
     private void HandleLadder()
     {
         bool onLadder = IsOnLadder();
-        if (verticalInput == 0) ladderCollider.isTrigger = false;
+        if ((transform.position.y > hatch.transform.position.y) && (verticalInput == 0))
+        {
+            hatchCollider.enabled = true;
+        }
+        else hatchCollider.enabled = false; 
+
         if (onLadder && verticalInput != 0f) isClimbing = true;
         if (!onLadder)
         {
@@ -61,7 +68,6 @@ public class PlayerMove : MonoBehaviour
         }
         if (isClimbing)
         {   
-            ladderCollider.isTrigger = true;
             rb.gravityScale = 0f;
             rb.linearVelocityY = verticalInput * climbSpeed;
         }
