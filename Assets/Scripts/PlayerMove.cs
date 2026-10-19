@@ -7,7 +7,7 @@ public class PlayerMove : MonoBehaviour
     public float climbSpeed = 3f;
     public LayerMask ladderLayer;
     public float ladderCheckRadius = 0.5f;
-
+    public bool canMove = true;
     private float verticalInput;
     public bool isClimbing;
     private Rigidbody2D rb;
@@ -41,7 +41,8 @@ public class PlayerMove : MonoBehaviour
         if (kb.sKey.isPressed) verticalInput = -1f;
     }
     private void Move()
-    {
+    {   
+        if (!canMove) return;
         rb.linearVelocityX = moveInput * moveSpeed;
     }
     private bool IsOnLadder()
