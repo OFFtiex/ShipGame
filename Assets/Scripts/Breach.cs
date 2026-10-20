@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class Breach : MonoBehaviour
 {
-    private bool isPlayerInside = false;
+    [SerializeField] private bool isPlayerInside = false;
     private bool isActivated = false;
 
     void Update()
